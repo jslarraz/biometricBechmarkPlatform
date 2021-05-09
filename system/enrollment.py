@@ -1,6 +1,6 @@
         
 # enrollment
-from system.preprocessing.preprocessing import preprocessing
+from system.preprocessing.preprocessing_san18 import preprocessing
 
 
 class enrollment():
