@@ -1,6 +1,6 @@
         
 # enrollment
-from system.preprocessing.preprocessing_san18 import preprocessing
+from system.preprocessing import preprocessing_san18
 
 
 class enrollment():
@@ -13,7 +13,7 @@ class enrollment():
             
             # Create the preprocessing chain 
             if not( signalData['fs'] in preprocessing_chains.keys() ):
-                preprocessing_chains[signalData['fs']] = preprocessing(signalData['fs'])  
+                preprocessing_chains[signalData['fs']] = preprocessing_san18(signalData['fs'])
                 
             preprocessing_chain = preprocessing_chains[signalData['fs']]
             
