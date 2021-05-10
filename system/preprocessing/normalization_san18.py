@@ -8,6 +8,6 @@ def normalize_san18(cycle):
         cycle = cycle - mean(cycle)
         cycle = cycle / max(cycle)
         cycle = spline(range(len(cycle)), cycle, arange(0, len(cycle), len(cycle)/127.0))
-        return cycle
     else:
-        return None
+        cycle[0] = None
+    return cycle

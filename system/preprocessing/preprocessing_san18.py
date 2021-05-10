@@ -23,12 +23,12 @@ def preprocessing_san18(x, fs):
         cycle = x[pos[i]:pos[i+1]-1]
 
         cycle = normalize_san18(cycle)
-        if cycle == None:
+        if isnan(cycle[0]):
             malas = append(malas, i)
             continue
 
         cycle = alignment_san18(cycle)
-        if cycle == None:
+        if isnan(cycle[0][0]):
             malas = append(malas, i)
             continue
 
