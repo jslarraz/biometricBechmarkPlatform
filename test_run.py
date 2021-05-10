@@ -11,5 +11,4 @@ dataset['nonin']['d3'] = acquisition.from_file('ddbb', 'nonin', 'd3')
 
 # asdf
 
-for signalData in dataset['nonin']['d1']:
-    enrol_x = filter_san18()
+s = system(preprocessing_san18, )
