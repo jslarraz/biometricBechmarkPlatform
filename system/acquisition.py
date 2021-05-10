@@ -28,7 +28,6 @@ def from_fhir(url, device, dataset):
             signalData = {'name': name, 'fs': 1/period, 'rawSignal': data}
             signalsData.append(signalData)
 
-
         return signalsData
 
     else:
@@ -52,6 +51,5 @@ def from_file(location, device, dataset):
 
             signalData = {'name': name, 'fs': 1/period, 'rawSignal': data}
             signalsData.append(signalData)
-
 
     return signalsData

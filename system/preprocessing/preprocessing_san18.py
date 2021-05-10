@@ -4,7 +4,6 @@ from segmentation_san18 import *
 from normalization_san18 import *
 from alignment_san18 import *
 
-
 def preprocessing_san18(x, fs):
 
     # Filter

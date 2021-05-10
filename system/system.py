@@ -1,57 +1,42 @@
 
 
 class system():
+
     def __init__(self, preprocessing, feature_extractor, classifier):
         self.preprocessing = preprocessing
         self.feature_extractor = feature_extractor
         self.classifier = classifier
 
-
     def enrollment(self, signalsData):
 
-        preprocessing_chains = {}
         templatesDB = []
         for signalData in signalsData:
 
-            # Create the preprocessing chain
-            if not( signalData['fs'] in preprocessing_chains.keys() ):
-                preprocessing_chains[signalData['fs']] = preprocessing_san18(signalData['fs'])
-
-            preprocessing_chain = preprocessing_chains[signalData['fs']]
-
             # Preprocessing
-            signalData = preprocessing_chain.preprocessing(signalData)
+            signalData['cycles'] = self.preprocessing(signalData['rawSignal'], signalData['fs'])
 
             # Feature extraction
-            template = eval("feature_extraction()." + method + "(signalData)")
+            template = self.feature_extractor(signalData['cycles'])
 
             # Storage in the DB
             templatesDB.append({'name': signalData['name'], 'template': template})
 
+        self.templates = templatesDB
         return templatesDB
 
-
-
-
-
-    def testing(self, signalData, templatesDB, method, metric):
-
-
-        # Create preprocessing chain
-        preprocessing_chain = preprocessing(signalData['fs'])
+    def testing(self, signalData, templatesDB):
 
         # Preprocessing
-        signalData = preprocessing_chain.preprocessing(signalData)
+        signalData['cycles'] = self.preprocessing(signalData['rawSignal'], signalData['fs'])
         print signalData['cycles'].shape
 
-
         # Feature extraction
-        template_1 = eval("feature_extraction()." + method + "(signalData)")
+        template_1 = self.feature_extractor(signalData)
 
         # Classification
         confidences = {'others': []}
         for template_2 in templatesDB:
-            confidence = eval("classification()." + metric + "(template_1, template_2['template'])")
+            confidence = self.classifier(template_1, template_2['template'])
 
             if signalData['name'] == template_2['name']:
                 confidences['claimed'] = confidence
@@ -61,29 +46,30 @@ class system():
         return confidences
 
 
-
-    def behaviour(self):
-
-        # Enrollment phase
-        templatesDB = enrollment().enrollment(self.trainingData, self.method)
-
-        # Testing phase
-        legit = []
-        intruders = []
-        for signalData in self.testData:
-            confidences = testing().testing(signalData, templatesDB, self.method, self.metric)
-            legit.append(confidences['claimed'])
-            intruders.append(confidences['others'])
-
-        far = []
-        frr = []
-        eer = 0
-        th = arange(0, 5, 0.05)
-        for thv in th:
-            frr.append(sum(legit > thv)/float(size(legit)) )
-            far.append(sum(intruders < thv)/float(size(intruders)) )
-            if (far[-1] > frr[-1]) and (eer == 0):
-                eer = (far[-1] + frr[-1]) / 2
-
-
-        return th, far, frr, eer      
+    # #from numpy import arange, size
+    # from scipy import arange, size
+    # def behaviour(self):
+    #
+    #     # Enrollment phase
+    #     templatesDB = self.enrollment(self.trainingData)
+    #
+    #     # Testing phase
+    #     legit = []
+    #     intruders = []
+    #     for signalData in self.testData:
+    #         confidences = self.testing(signalData, templatesDB)
+    #         legit.append(confidences['claimed'])
+    #         intruders.append(confidences['others'])
+    #
+    #     far = []
+    #     frr = []
+    #     eer = 0
+    #     th = arange(0, 5, 0.05)
+    #     for thv in th:
+    #         frr.append(sum(legit > thv)/float(size(legit)) )
+    #         far.append(sum(intruders < thv)/float(size(intruders)) )
+    #         if (far[-1] > frr[-1]) and (eer == 0):
+    #             eer = (far[-1] + frr[-1]) / 2
+    #
+    #
+    #     return th, far, frr, eer

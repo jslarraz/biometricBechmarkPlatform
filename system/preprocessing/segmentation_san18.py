@@ -5,7 +5,7 @@ def segmentation_san18(x):
     x = array(x, dtype='d')
 
     # Threshold calc
-    th = (sort(x)[round(len(x)*0.95)] - sort(x)[round(len(x)*0.05)]) / 2.0;
+    th = (sort(x)[int(round(len(x)*0.95))] - sort(x)[int(round(len(x)*0.05))]) / 2.0
 
     # Find inflexion points
     pos = array([], dtype='i')
