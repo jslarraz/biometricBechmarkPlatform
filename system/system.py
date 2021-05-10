@@ -54,7 +54,7 @@ class system():
         far = []
         frr = []
         eer = 0
-        th = arange(0, 5, 0.05)
+        th = arange(0, 25, 0.05)
         for thv in th:
             frr.append(sum(confidences['legit'] > thv)/float(size(confidences['legit'])) )
             far.append(sum(confidences['intruder'] < thv)/float(size(confidences['intruder'])) )

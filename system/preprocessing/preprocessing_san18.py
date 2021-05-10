@@ -22,7 +22,7 @@ def preprocessing_san18(x, fs):
     for i in range(len(pos)-1):
         cycle = x[pos[i]:pos[i+1]-1]
 
-        cycle = normalize_san18(cycle)
+        cycle = normalize_san18(cycle, fs)
         if isnan(cycle[0]):
             malas = append(malas, i)
             continue
