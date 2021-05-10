@@ -1,7 +1,6 @@
 
 # authentication system     
-from system.enrollment import enrollment
-from system.testing import testing
+
 from numpy import *
 class authentication_system():
     
@@ -15,7 +14,7 @@ class authentication_system():
     def behaviour(self):
 
         # Enrollment phase
-        templatesDB = enrollment().enrollment(self.trainingData, self.method)
+        templatesDB = self.enrollment(self.trainingData, self.method)
         
         # Testing phase
         legit = []
