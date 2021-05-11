@@ -19,10 +19,10 @@ class system():
             signalData['cycles'] = self.preprocessing(signalData['rawSignal'], signalData['fs'])
 
             # Feature extraction
-            template = self.feature_extractor(signalData)
+            signalData['template'] = self.feature_extractor(signalData)
 
             # Storage in the DB
-            self.templatesDB.append({'name': signalData['name'], 'template': template})
+            self.templatesDB.append({'name': signalData['name'], 'template': signalData['template']})
 
         return signalsData
 

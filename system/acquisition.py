@@ -40,9 +40,9 @@ def from_file(location, device, dataset, start=0, end=None):
     if device == 'prrb':
         period = 1/float(300)
     elif device == 'nonin':
-        period = 1/float(100)
-    elif device == 'berry':
         period = 1/float(75)
+    elif device == 'berry':
+        period = 1/float(100)
     else:
         print("Unsupported device")
         exit(0)

@@ -11,7 +11,7 @@ def segmentation_san18(x):
     pos = array([], dtype='i')
     d = abs(diff(sign(diff(x))))
     for i in range(len(d)):
-        if d[i] > 0:
+        if d[i] == 2:
             pos = append(pos, i+1)
 
     # Compare distance between inflexion points against the threshold

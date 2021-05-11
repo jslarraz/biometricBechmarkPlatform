@@ -12,7 +12,7 @@ def filter_san18(x, fs):
     # digital frequency
     Wn = fc/(fs/2)
 
-    # filt
+    # filtfilt
     b, a = butter(N, Wn, btype)
     y = filtfilt(b, a, x)
     return y
