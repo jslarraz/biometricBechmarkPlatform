@@ -59,6 +59,6 @@ class system():
             frr.append(sum(confidences['legit'] > thv)/float(size(confidences['legit'])) )
             far.append(sum(confidences['intruder'] < thv)/float(size(confidences['intruder'])) )
             if (far[-1] > frr[-1]) and (eer == 0):
-                eer = (far[-1] + frr[-1]) / 2
+                eer = (far[-1] + frr[-1]) / 2 * 100
 
         return th, far, frr, eer

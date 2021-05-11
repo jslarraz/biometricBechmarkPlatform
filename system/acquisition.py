@@ -50,7 +50,7 @@ def from_file(location, device, dataset):
             data = map(float, data.split(' '))
 
             #signalData = {'name': name, 'fs': 1/period, 'rawSignal': data}
-            signalData = {'name': name, 'fs': 100, 'rawSignal': data}
+            signalData = {'name': name, 'fs': 75, 'rawSignal': data}
             signalsData.append(signalData)
 
     return signalsData

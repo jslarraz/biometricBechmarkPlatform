@@ -13,8 +13,9 @@ dataset['berry']['d2'] = from_file('ddbb', 'berry', 'd2')
 dataset['berry']['d3'] = from_file('ddbb', 'berry', 'd3')
 
 
+#s = system(preprocessing_san18, multicycles_san18, manhattan_san18)
 s = system(preprocessing_san18, mean_cycle_san18, manhattan_san18)
-s.enrollment(dataset['nonin']['d1'])
-s.testing(dataset['nonin']['d1'], s.templates)
+s.enrollment(dataset['berry']['d1'])
+s.testing(dataset['berry']['d1'], s.templates)
 th, far, frr, eer = s.behaviour(s.confidences)
 print (eer)
