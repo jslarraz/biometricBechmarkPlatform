@@ -9,9 +9,10 @@ class system():
         self.feature_extractor = feature_extractor
         self.classifier = classifier
 
+    # Enrollment stage
     def enrollment(self, signalsData):
 
-        templatesDB = []
+        self.templatesDB = []
         for signalData in signalsData:
 
             # Preprocessing
@@ -21,12 +22,11 @@ class system():
             template = self.feature_extractor(signalData)
 
             # Storage in the DB
-            templatesDB.append({'name': signalData['name'], 'template': template})
+            self.templatesDB.append({'name': signalData['name'], 'template': template})
 
-        self.templates = templatesDB
-        return templatesDB
 
-    def testing(self, signalsData, templatesDB):
+    # Testing stage
+    def testing(self, signalsData):
 
         confidences = {'legit': [], 'intruder': []}
         for signalData in signalsData:
@@ -38,7 +38,7 @@ class system():
             template_1 = self.feature_extractor(signalData)
 
             # Classification
-            for template_2 in templatesDB:
+            for template_2 in self.templatesDB:
                 confidence = self.classifier(template_1, template_2['template'])
 
                 if signalData['name'] == template_2['name']:
@@ -46,15 +46,11 @@ class system():
                 else:
                     confidences['intruder'].append(confidence)
 
-        self.confidences = confidences
-        return confidences
-
-    def behaviour(self, confidences):
-
+        # Analyse error
         far = []
         frr = []
         eer = 0
-        th = arange(0, 25, 0.05)
+        th = arange(0, max(max(confidences['legit']), max(confidences['intruder'])), 0.05)
         for thv in th:
             frr.append(sum(confidences['legit'] > thv)/float(size(confidences['legit'])) )
             far.append(sum(confidences['intruder'] < thv)/float(size(confidences['intruder'])) )

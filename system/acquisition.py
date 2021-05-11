@@ -34,7 +34,18 @@ def from_fhir(url, device, dataset):
         return None
 
 
-def from_file(location, device, dataset):
+def from_file(location, device, dataset, start=0, end=None):
+
+    # TODO Por alguna razon el 'period' vale 0 en los recursos de nonin y berry asi que no puedo cargarlo directamente
+    if device == 'prrb':
+        period = 1/300
+    elif device == 'nonin':
+        period = 1/100
+    elif device == 'berry':
+        period = 1/75
+    else:
+        print("Unsupported device")
+        exit(0)
 
     path = location + '/' + device + '/' + dataset
 
@@ -45,12 +56,14 @@ def from_file(location, device, dataset):
             resource = json.loads(f.read())
 
             name = resource['subject']['display']
-            period = resource['valueSampledData']['period']
+            #period = resource['valueSampledData']['period']
+            fs = 1 / period
             data = resource['valueSampledData']['data']
             data = map(float, data.split(' '))
 
-            #signalData = {'name': name, 'fs': 1/period, 'rawSignal': data}
-            signalData = {'name': name, 'fs': 75, 'rawSignal': data}
+            data = data[start*fs:-1] if not(end) else data[start*fs:end*fs]
+            signalData = {'name': name, 'fs': fs, 'rawSignal': data}
             signalsData.append(signalData)
 
     return signalsData
+
