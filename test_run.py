@@ -1,20 +1,36 @@
 from system import *
 
+eer = {}
+for preprocessing in [preprocessing_san18]:
+    eer[preprocessing.__name__] = {}
 
-# load data set
-dataset = {}
-dataset['nonin'] = {}
-dataset['nonin']['d1'] = from_file('ddbb', 'nonin', 'd1')
-dataset['nonin']['d2'] = from_file('ddbb', 'nonin', 'd2')
-dataset['nonin']['d3'] = from_file('ddbb', 'nonin', 'd3')
-dataset['berry'] = {}
-dataset['berry']['d1'] = from_file('ddbb', 'berry', 'd1')
-dataset['berry']['d2'] = from_file('ddbb', 'berry', 'd2')
-dataset['berry']['d3'] = from_file('ddbb', 'berry', 'd3')
+    for feature_extractor in [mean_cycle_san18, multicycles_san18]:
+        eer[preprocessing.__name__][feature_extractor.__name__] = {}
+
+        for classifier in [manhattan_san18, euclidean_san18]:
+            eer[preprocessing.__name__][feature_extractor.__name__][classifier.__name__] = {}
+
+            # System definition
+            s = system(preprocessing, feature_extractor, classifier)
+
+            for device in ['nonin', 'berry']:
+                eer[preprocessing.__name__][feature_extractor.__name__][classifier.__name__][device] = {}
+
+                for ts in ['d2', 'd3']:
+                    eer[preprocessing.__name__][feature_extractor.__name__][classifier.__name__][device][ts] = []
+
+                    for enrollment_gap in [0,5,10]:
+                        s.enrollment(from_file('ddbb', device, 'd1', 10+enrollment_gap, 40+enrollment_gap))
+
+                        for testing_gap in [0,5,10]:
+                            th, far, frr, eer_aux = s.testing(from_file('ddbb', device, ts, 10+testing_gap, 40+testing_gap))
+                            eer[preprocessing.__name__][feature_extractor.__name__][classifier.__name__][device][ts].append(eer_aux)
+
+                    eer[preprocessing.__name__][feature_extractor.__name__][classifier.__name__][device][ts] = mean(eer[preprocessing.__name__][feature_extractor.__name__][classifier.__name__][device][ts])
+                    print(mean(eer[preprocessing.__name__][feature_extractor.__name__][classifier.__name__][device][ts]))
+print(eer)
 
 
-#s = system(preprocessing_san18, multicycles_san18, manhattan_san18)
-s = system(preprocessing_san18, mean_cycle_san18, manhattan_san18)
-s.enrollment(dataset['berry']['d1'])
-th, far, frr, eer = s.testing(dataset['berry']['d1'])
-print (eer)
+
+
+

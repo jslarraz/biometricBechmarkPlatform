@@ -38,15 +38,14 @@ def from_file(location, device, dataset, start=0, end=None):
 
     # TODO Por alguna razon el 'period' vale 0 en los recursos de nonin y berry asi que no puedo cargarlo directamente
     if device == 'prrb':
-        period = 1/300
+        period = 1/float(300)
     elif device == 'nonin':
-        period = 1/100
+        period = 1/float(100)
     elif device == 'berry':
-        period = 1/75
+        period = 1/float(75)
     else:
         print("Unsupported device")
         exit(0)
-
     path = location + '/' + device + '/' + dataset
 
     signalsData = []
@@ -61,7 +60,7 @@ def from_file(location, device, dataset, start=0, end=None):
             data = resource['valueSampledData']['data']
             data = map(float, data.split(' '))
 
-            data = data[start*fs:-1] if not(end) else data[start*fs:end*fs]
+            #data = data[int(round(start*fs)):None] if not(end) else data[int(round(start*fs)):int(round(end*fs))]
             signalData = {'name': name, 'fs': fs, 'rawSignal': data}
             signalsData.append(signalData)
 
