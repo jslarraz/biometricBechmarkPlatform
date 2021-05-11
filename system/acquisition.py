@@ -60,7 +60,7 @@ def from_file(location, device, dataset, start=0, end=None):
             data = resource['valueSampledData']['data']
             data = map(float, data.split(' '))
 
-            #data = data[int(round(start*fs)):None] if not(end) else data[int(round(start*fs)):int(round(end*fs))]
+            data = data[int(round(start*fs)):None] if not(end) else data[int(round(start*fs)):int(round(end*fs))]
             signalData = {'name': name, 'fs': fs, 'rawSignal': data}
             signalsData.append(signalData)
 

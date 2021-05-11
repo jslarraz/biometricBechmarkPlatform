@@ -24,6 +24,7 @@ class system():
             # Storage in the DB
             self.templatesDB.append({'name': signalData['name'], 'template': template})
 
+        return signalsData
 
     # Testing stage
     def testing(self, signalsData):
