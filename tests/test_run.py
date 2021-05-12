@@ -5,10 +5,10 @@ eer = {}
 for preprocessing in [preprocessing_san18]:
     eer[preprocessing.__name__] = {}
 
-    for feature_extractor in [multicycles_san18]:
+    for feature_extractor in [mean_cycle_san18, multicycles_san18]:
         eer[preprocessing.__name__][feature_extractor.__name__] = {}
 
-        for classifier in [manhattan_san18]:
+        for classifier in [manhattan_san18, euclidean_san18]:
             eer[preprocessing.__name__][feature_extractor.__name__][classifier.__name__] = {}
 
             # System definition
